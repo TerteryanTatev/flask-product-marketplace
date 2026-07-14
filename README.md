@@ -1,13 +1,13 @@
 # Flask E-Commerce Application
 
-A fully functional **E-Commerce web application** built with **Flask**, **SQLite3**, and **HTML/CSS**. The project demonstrates full-stack web development concepts, including user authentication, product management, shopping cart functionality, inventory control, and role-based access for administrators.
+A lightweight **E-Commerce web application** built with **Flask**, **SQLite3**, and **HTML/CSS**. The project demonstrates full-stack web development concepts, including user authentication, role-based authorization, product management, product filtering, shopping cart functionality, inventory management, and database operations.
 
 ## Features
 
 ### User Features
 
-- User registration and authentication.
-- Secure login with password validation.
+- User registration with input validation.
+- User login and logout using Flask sessions.
 - Browse the product catalog.
 - Search products by name.
 - Filter products by:
@@ -15,28 +15,51 @@ A fully functional **E-Commerce web application** built with **Flask**, **SQLite
   - Brand
   - Color
   - Discount status
-  - Price range
+  - Minimum and maximum price
 - Add products to the shopping cart.
 - Remove products from the shopping cart.
-- Automatic stock availability verification.
-- Automatic inventory updates when products are added or removed from the cart.
+- Automatic stock verification before adding products.
+- Automatic inventory updates when products are added to or removed from the cart.
 
 ### Administrator Features
 
-- Administrator control panel.
+Administrator-only pages allow product management:
+
 - Add new products.
 - Edit existing products.
 - Delete products.
-- Manage inventory quantities.
-- Configure product information including:
+- Manage product information, including:
   - Name
+  - Price
+  - Stock quantity
   - Category
   - Brand
   - Color
-  - Price
+  - Discount status
   - Discount price
-  - Stock quantity
-  - Product image
+  - Product image path
+
+## Input Validation
+
+The application performs validation using Python property setters.
+
+### Product Validation
+
+- Product name validation.
+- Positive price validation.
+- Non-negative stock validation.
+- Image path validation.
+- Category validation.
+- Brand validation.
+- Color validation.
+- Discount value validation.
+- Discount price validation.
+
+### User Validation
+
+- Username validation.
+- Password length validation.
+- User role validation.
 
 ## Technology Stack
 
@@ -48,8 +71,9 @@ A fully functional **E-Commerce web application** built with **Flask**, **SQLite
 ### Database
 
 - SQLite3
+- Raw SQL queries
 - Parameterized SQL queries
-- Raw SQL database operations
+- SQLite Row Factory
 
 ### Frontend
 
@@ -65,40 +89,53 @@ A fully functional **E-Commerce web application** built with **Flask**, **SQLite
 
 ```text
 ├── db/
-│   ├── db.py              # Database utilities and SQL operations
-│   └── shop.db            # Local SQLite database (ignored by Git)
+│   ├── db.py              # Database utilities, validation classes, and services
+│   └── shop.db            # SQLite database
 │
 ├── static/
 │   ├── images/            # Product images
 │   └── *.css              # Stylesheets
 │
 ├── templates/
-│   └── *.html             # Jinja2 templates
+│   ├── home.html
+│   ├── login.html
+│   ├── Register.html
+│   ├── cart.html
+│   ├── add.html
+│   ├── edit.html
+│   ├── edit_page.html
+│   ├── delete_page.html
+│   ├── about.html
+│   └── info.html
 │
-├── app.py                 # Application entry point
+├── app.py                 # Flask application and routes
 ├── .gitignore
 └── README.md
 ```
 
 ## Application Workflow
 
-1. Users register and log in.
-2. Products are loaded from the SQLite database.
-3. Users can search and filter products.
-4. Selected products are added to the shopping cart.
-5. Inventory is automatically updated.
-6. Administrators manage the product catalog through the control panel.
+1. Users register an account.
+2. Users log in using their credentials.
+3. Products are loaded from the SQLite database.
+4. Users search and filter products.
+5. Products can be added to the shopping cart.
+6. Available stock is checked before adding items.
+7. Stock quantities are automatically updated.
+8. Administrators can add, edit, and delete products.
 
-## Technologies Demonstrated
+## Concepts Demonstrated
 
 - Flask Routing
-- Jinja2 Template Engine
+- Template Rendering (Jinja2)
 - User Authentication
+- Role-Based Authorization
 - Session Management
 - CRUD Operations
 - SQLite Database Design
 - SQL Queries
-- Product Search & Filtering
+- Data Validation
+- Product Search and Filtering
 - Shopping Cart Logic
 - Inventory Management
 
@@ -116,7 +153,7 @@ Navigate to the project folder:
 cd Flask-E-Commerce
 ```
 
-Install the required dependencies:
+Install Flask:
 
 ```bash
 pip install flask
@@ -128,7 +165,7 @@ Run the application:
 python app.py
 ```
 
-Then open your browser and visit:
+Open your browser and visit:
 
 ```
 http://127.0.0.1:5000
@@ -136,10 +173,11 @@ http://127.0.0.1:5000
 
 ## Future Improvements
 
+- Password hashing
+- Order management
 - Order history
-- Online payment integration
-- Product reviews and ratings
-- Wishlist functionality
+- Payment integration
+- Product reviews
+- Wishlist
+- REST API
 - Responsive mobile interface
-- REST API support
-- Admin dashboard analytics
