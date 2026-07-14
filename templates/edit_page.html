@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+
+{% block content %}
+<link rel="stylesheet" href="{{ url_for('static', filename='edit.css') }}">
+<h2>Edit Products</h2>
+
+<div class="container">
+{% for product in products %}
+    <div class="card">
+        <h3>{{ product['name'] }}</h3>
+        <p>{{ product['price'] }}</p>
+
+        <a href="/edit/{{ product['product_id'] }}">
+            <button>Edit</button>
+        </a>
+    </div>
+{% endfor %}
+</div>
+
+{% endblock %}

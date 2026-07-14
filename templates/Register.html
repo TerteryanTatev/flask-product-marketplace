@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+
+{% block content %}
+<link rel="stylesheet" href="{{ url_for('static', filename='style_login.css') }}">
+<div class="container">
+<form method="POST">
+    <h2>Register</h2>
+    <input name="username" placeholder="Username">
+    <input name="password" type="password" placeholder="Password">
+    <button class='btn'>Register</button>
+    {% if error %}
+        <p class="error">{{ error }}</p>
+    {% endif %}
+</form>
+</div>
+
+{% endblock %}

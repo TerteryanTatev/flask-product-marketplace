@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+
+{% block content %}
+<link rel="stylesheet" href="{{ url_for('static', filename='info.css') }}">
+<div class="info-wrapper">
+
+    <h1 class="info-title">Information</h1>
+
+    <div class="info-grid">
+
+        <div class="info-box">
+            <h3> Our Goal</h3>
+            <p>
+                To provide high-quality products with fast and reliable service for all customers.
+            </p>
+        </div>
+
+        <div class="info-box">
+            <h3> Technology</h3>
+            <p>
+                This project is built using Flask, SQLite, HTML, and CSS with clean architecture.
+            </p>
+        </div>
+
+        <div class="info-box">
+            <h3> Security</h3>
+            <p>
+                We focus on secure authentication, role-based access, and safe data handling.
+            </p>
+        </div>
+
+        <div class="info-box">
+            <h3> Products</h3>
+            <p>
+                All products are stored in a database and dynamically displayed on the website.
+            </p>
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

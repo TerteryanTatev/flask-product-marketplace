@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>My Shop</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+<nav>
+    <div class="brand">MyShop</div>
+
+    <a href="/">Home</a>
+    <a href="/cart">Cart</a>
+    <a href="/about">About</a>
+    <a href="/info">Info</a>
+
+    {% if session.get('user') %}
+        <a href="/logout">Logout</a>
+    {% else %}
+        <a href="/login">Login</a>
+    {% endif %}
+
+    <a href="/Register">Register</a>
+    {% if session.get('user') and session['user']['role'] == 'admin' %}
+        <div class="dropdown">
+        <button class="dropbtn">Admin</button>
+
+        <div class="dropdown-content">
+            <a href="/add">Add Product</a>
+            <a href="/edit_page">Edit Product</a>
+            <a href="/delete_page">Delete Product</a>
+        </div>
+    </div>
+    {% endif %}
+</nav>
+
+
+</nav>
+
+{% block content %}
+{% endblock %}
+
+</body>
+</html>

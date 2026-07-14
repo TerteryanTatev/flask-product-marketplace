@@ -1,0 +1,172 @@
+{% extends "base.html" %}
+
+{% block content %}
+<link rel="stylesheet" href="{{ url_for('static', filename='home.css') }}">
+
+<h1>Products</h1>
+
+<form method="GET" action="/" class="filter-form">
+
+    <input type="text" name="q" placeholder="Search..." class="search-input">
+
+    <select name="category">
+        <option value="">Category</option>
+        <option value="phone">Phone</option>
+        <option value="accessory">Accessory</option>
+        <option value="laptop">Laptop</option>
+
+    </select>
+
+    <select name="brand">
+        <option value="">Brand</option>
+        <option value="Apple">Apple</option>
+        <option value="Samsung">Samsung</option>
+    </select>
+
+    <select name="color">
+        <option value="">Color</option>
+        <option value="black">Black</option>
+        <option value="white">White</option>
+        <option value="gray">Gray</option>
+
+    </select>
+
+    <select name="discount">
+        <option value="">Discount</option>
+        <option value="1">Only discounted</option>
+        <option value="0">Without discount</option>
+    </select>
+
+    <input type="number" name="min_price" placeholder="Min price">
+    <input type="number" name="max_price" placeholder="Max price">
+
+    <button type="submit">Filter</button>
+</form>
+<div class="container">
+{% for product in products %}
+<div class="card {% if product['stock'] == 0 %}out-of-stock{% endif %}"
+     onclick="openModal({{ product['product_id'] }}) {% if product['stock'] == 0 %}disabled{% endif %}">
+
+    <img src="{{ url_for('static', filename=product['image_path']) }}">
+
+    <h3>{{ product['name'] }}</h3>
+
+    <p class="brand">{{ product['brand'] }}</p>
+
+    {% if product['discount'] == 1 %}
+        <p class="badge"> Sale</p>
+    {% endif %}
+
+    {% if product['discount_price'] %}
+        <p class="old-price">{{ product['price'] }}$</p>
+        <p class="new-price">{{ product['price']  - product['discount_price'] }}$</p>
+    {% else %}
+        <p class="price">{{ product['price'] }}$</p>
+    {% endif %}
+
+</div>
+{% endfor %}
+</div>
+
+
+<div id="productModal" class="modal">
+    <div class="modal-content">
+
+        <span class="close" onclick="closeModal()">&times;</span>
+
+        <img id="modalImg" class="modal-img">
+
+        <h2 id="modalName"></h2>
+
+        <div class="modal-info">
+            <p id="modalCategory"></p>
+            <p id="modalBrand"></p>
+            <p id="modalColor"></p>
+        </div>
+
+        <div class="price-box">
+            <p id="modalPrice" class="price"></p>
+            <p id="modalDiscount" class="discount-price"></p>
+        </div>
+
+        <p id="modalStock" class="stock-text"></p>
+
+        <form method="POST" action="/add_to_cart" class="modal-form">
+            <input type="hidden" name="product_id" id="modalProductId">
+
+            <div class="qty-box">
+                <button type="button" onclick="decreaseQty()">−</button>
+                <input type="number" name="quantity" value="1" min="1" id="modalQty">
+                <button type="button" onclick="increaseQty()">+</button>
+            </div>
+
+            <button type="submit" class="cart-btn">Add to Cart</button>
+        </form>
+
+    </div>
+</div>
+
+
+<script>
+let currentStock = 1;
+const products = {{ products|tojson }};
+function openModal(id) {
+    const product = products.find(p => p.product_id === id);
+
+    document.getElementById("productModal").style.display = "flex";
+
+    document.getElementById("modalImg").src = "/static/" + product.image_path;
+    document.getElementById("modalName").innerText = product.name;
+
+    document.getElementById("modalCategory").innerText = "Category: " + product.category;
+    document.getElementById("modalBrand").innerText = "Brand: " + product.brand;
+    document.getElementById("modalColor").innerText = "Color: " + product.color;
+
+    document.getElementById("modalPrice").innerText = "Price: " + product.price + "$";
+
+    if (product.discount == 1) {
+        document.getElementById("modalDiscount").innerText =
+            "Now: " +(product.price - product.discount_price) + "$";
+    } else {
+        document.getElementById("modalDiscount").innerText = "";
+    }
+
+   
+    currentStock = product.stock;
+
+    document.getElementById("modalStock").innerText =
+        currentStock > 0 ? "In stock: " + currentStock : "Out of stock";
+
+    document.getElementById("modalProductId").value = product.product_id;
+
+    const qtyInput = document.getElementById("modalQty");
+    qtyInput.value = 1;
+    qtyInput.max = currentStock;
+
+    document.querySelector(".cart-btn").disabled = currentStock === 0;
+}
+
+function closeModal() {
+    document.getElementById("productModal").style.display = "none";
+}
+
+function increaseQty() {
+    const input = document.getElementById("modalQty");
+    let val = parseInt(input.value);
+
+    if (val < currentStock) {
+        input.value = val + 1;
+    }
+}
+
+function decreaseQty() {
+    const input = document.getElementById("modalQty");
+    let val = parseInt(input.value);
+
+    if (val > 1) {
+        input.value = val - 1;
+    }
+}
+
+</script>
+{% endblock %}

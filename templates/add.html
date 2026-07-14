@@ -1,0 +1,98 @@
+{% extends "base.html" %}
+
+{% block content %}
+<link rel="stylesheet" href="{{ url_for('static', filename='add.css') }}">ց
+<div class="add-wrapper">
+
+    <form method="POST" class="add-form">
+
+        <h2>Add New Product</h2>
+
+        {% if error %}
+            <p class="error">{{ error }}</p>
+        {% endif %}
+
+        <div class="input-group">
+            <label>Product Name</label>
+            <input type="text" name="name" required>
+        </div>
+
+        <div class="input-group">
+            <label>Price</label>
+            <input type="number" name="price" required>
+        </div>
+
+        <div class="input-group">
+            <label>Stock</label>
+            <input type="number" name="stock" required>
+        </div>
+        <div class="input-group">
+             <label>category</label>
+            <select name="category"   class="discount-select" required>
+                <option value="">Category</option>
+                <option value="phone">Phone</option>
+                <option value="accessory">Accessory</option>
+                <option value="laptop">Laptop</option>
+
+            </select>
+        </div>
+         <div class="input-group">
+            <label>brand</label>
+            <input type="text" name="brand" required>
+        </div>
+        <div class="input-group">
+            <label>color</label>
+            <input type="text" name="color" required>
+        </div>
+        <div class="input-group">
+            <label>Image Path</label>
+            <input type="text" name="image" id="imageInput" placeholder="images/laptop.jpg" required>
+        </div>
+
+        <div class="input-group">
+         <label>Discount:</label>
+        <select name="discount" class="discount-select" id = 'discountSelect'>
+            <option class="discount-option" value="0" selected>No</option>
+            <option class = 'discount-option' value="1" selected>Yes</option>
+        </select>
+        <br>
+        <div id="discountBox" style="display: none;" class="input-group">
+            <label>Discount Price</label>
+            <input type="number" name="discount_price"
+               placeholder="Discount Price">
+    </div>
+<div>
+        <img id="preview" src="" style="display:none; width:100%; border-radius:10px; margin-top:10px;">
+<br>
+        <button type="submit">Add Product</button>
+
+    </form>
+
+</div>
+
+<script>
+    const input = document.getElementById("imageInput");
+    const preview = document.getElementById("preview");
+ const discountSelect = document.getElementById("discountSelect");
+    const discountBox = document.getElementById("discountBox");
+
+    function toggleDiscount() {
+        if (discountSelect.value === "1") {
+            discountBox.style.display = "block";
+        } else {
+            discountBox.style.display = "none";
+        }
+    }
+
+    toggleDiscount();
+
+    discountSelect.addEventListener("change", toggleDiscount);
+    input.addEventListener("input", () => {
+        if (input.value.length > 3) {
+            preview.style.display = "block";
+            preview.src = "/static/" + input.value;
+        }
+    });
+</script>
+
+{% endblock %}

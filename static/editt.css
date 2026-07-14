@@ -1,0 +1,105 @@
+body {
+    font-family: Arial, sans-serif;
+}
+
+.add-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 85vh;
+}
+
+.add-form {
+    width: 380px;
+    padding: 35px;
+    background: rgba(216, 213, 249, 0.08);
+    backdrop-filter: blur(14px);
+    border-radius: 18px;
+    box-shadow: 0 12px 35px rgba(0, 0, 0, 0.5);
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+    animation: fadeIn 0.5s ease;
+}
+
+.add-form h2 {
+    text-align: center;
+    color: rgb(8, 0, 50);
+    margin-bottom: 10px;
+}
+
+.add-form input {
+    padding: 12px;
+    border: none;
+    border-radius: 10px;
+    outline: none;
+    font-size: 14px;
+    background: rgba(200, 203, 226, 0.112);
+    transition: 0.3s;
+}
+
+.add-form input:focus {
+    box-shadow: 0 0 10px #0015ff44;
+    transform: scale(1.02);
+}
+
+.add-form button {
+    padding: 12px;
+    border: none;
+    border-radius: 10px;
+    background: linear-gradient(45deg, #0a009b, #060074);
+    color: white;
+    font-size: 15px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.add-form button:hover {
+    transform: scale(1.05);
+    background: linear-gradient(45deg, #001475, #06004b);
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(15px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+.discount-select{
+    padding: 12px;
+    border: none;
+    border-radius: 10px;
+    outline: none;
+    font-size: 14px;
+    background: rgba(200, 203, 226, 0.112);
+    transition: 0.3s;
+
+}
+.discount-option{
+    padding: 12px;
+    border: none;
+    border-radius: 10px;
+    outline: none;
+    font-size: 14px;
+    background: rgba(200, 203, 226, 0.112);
+    transition: 0.3s;
+
+}
+.back-btn {
+    text-align: center;
+    margin-top: 10px;
+}
+
+.back-btn a {
+    color: #ccc;
+    text-decoration: none;
+    font-size: 14px;
+}
+
+.back-btn a:hover {
+    color: rgb(2, 0, 57);
+}

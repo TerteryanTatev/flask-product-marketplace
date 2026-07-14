@@ -1,0 +1,79 @@
+{% extends "base.html" %}
+
+{% block content %}
+<link rel="stylesheet" href="{{ url_for('static', filename='cart.css') }}">
+
+<h2 class="cart-title">Your Cart</h2>
+
+{% if products %}
+
+<div class="cart-container">
+
+    {% for item in products %}
+    <div class="cart-item">
+
+        <img src="{{ url_for('static', filename=item.product['image_path']) }}">
+
+        <div class="info">
+            <h3>{{ item.product['name'] }}</h3>
+            <p>Price: ${{ item.product['price'] }}</p>
+            <p>Qty: {{ item.quantity }}</p>
+        </div>
+
+        <div class="right-side">
+            <div class="subtotal">
+                ${{ item.subtotal }}
+            </div>
+
+          
+            <form method="POST" action="/remove_from_cart">
+                <input type="hidden" name="product_id" value="{{ item.product['product_id'] }}">
+                <button class="remove-btn">✖</button>
+            </form>
+        </div>
+
+    </div>
+    {% endfor %}
+
+</div>
+
+<div class="cart-summary">
+    <h3>Total: ${{ total }}</h3>
+
+    <button class="buy-btn" onclick="openModal()">Buy Now </button>
+</div>
+
+{% else %}
+<p class="empty">Your cart is empty </p>
+{% endif %}
+
+
+<div id="paymentModal" class="modal">
+
+    <div class="modal-content">
+
+        <span class="close" onclick="closeModal()">&times;</span>
+
+        <h2>Payment</h2>
+
+        <input placeholder="Card Number">
+        <input placeholder="MM/YY">
+        <input placeholder="CVV">
+
+        <button class="pay-btn">Pay Now</button>
+
+    </div>
+
+</div>
+
+<script>
+function openModal() {
+    document.getElementById("paymentModal").style.display = "flex";
+}
+
+function closeModal() {
+    document.getElementById("paymentModal").style.display = "none";
+}
+</script>
+
+{% endblock %}
